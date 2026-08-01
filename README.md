@@ -1,36 +1,68 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Advertisement Marketplace
 
-## Getting Started
+Aplicación web desarrollada con **Next.js 16**, **TypeScript**, **Prisma** y **Supabase** para la gestión de anuncios de segunda mano.
 
-First, run the development server:
+## Características
+
+- Autenticación mediante sesiones.
+- Listado de anuncios.
+- Búsqueda por título.
+- Crear anuncios (usuarios autenticados).
+- Editar anuncios (solo el propietario).
+- Eliminar anuncios (solo el propietario).
+- Favoritos con Optimistic UI (`useOptimistic`).
+- Middleware de protección para rutas privadas.
+- Validación de formularios con Zod.
+- Error Boundaries y páginas de error personalizadas.
+- Loading UI.
+- Tests con Vitest.
+
+## Tecnologías utilizadas
+
+- Next.js 16
+- React 19
+- TypeScript
+- Prisma ORM
+- PostgreSQL (Supabase)
+- Tailwind CSS
+- Zod
+- Vitest
+
+## Funcionalidades implementadas
+
+### Autenticación
+
+- Inicio de sesión.
+- Cierre de sesión.
+- Protección mediante Middleware.
+- Protección de Server Actions.
+
+### Gestión de anuncios
+
+- Crear anuncios.
+- Editar anuncios.
+- Eliminar anuncios.
+- Buscar anuncios.
+- Visualizar detalle del anuncio.
+
+### Funcionalidades avanzadas
+
+- Optimistic UI para favoritos.
+- Error Boundaries (`error.tsx` y `global-error.tsx`).
+- Página `not-found`.
+- Loading UI.
+- Revalidación de caché mediante `revalidatePath()`.
+
+## Testing
+
+Los tests se ejecutan mediante:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm test
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Actualmente se incluyen tests para la validación de creación de anuncios.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Autor
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Laura Guillén Toman
