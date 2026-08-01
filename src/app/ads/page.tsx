@@ -3,6 +3,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/auth";
 import { revalidatePath } from "next/cache";
+import FavoriteButton from "@/components/FavoriteButton";
 
 type Props = {
   searchParams: Promise<{
@@ -11,6 +12,8 @@ type Props = {
 };
 
 export default async function AdsPage({ searchParams }: Props) {
+  const session = await getSession();
+
   const { query } = await searchParams;
 
   const ads = await prisma.ad.findMany({
@@ -92,27 +95,33 @@ export default async function AdsPage({ searchParams }: Props) {
                 </h2>
               </Link>
 
-              <p>{ad.description}</p>
+              <p className="mt-2">{ad.description}</p>
 
-              <p>{ad.price.toFixed(2)} €</p>
+              <p className="mt-4 font-bold">{ad.price.toFixed(2)} €</p>
 
-              <Link
-                href={`/ads/${ad.id}/edit`}
-                className="mt-4 inline-block font-medium underline"
-              >
-                Editar
-              </Link>
+              {session && <FavoriteButton id={ad.id} favorite={ad.favorite} />}
 
-              <form action={deleteAd} className="mt-3">
-                <input type="hidden" name="id" value={ad.id} />
+              {session?.userId === ad.ownerId && (
+                <div className="mt-4 flex items-center gap-4">
+                  <Link
+                    href={`/ads/${ad.id}/edit`}
+                    className="font-medium underline"
+                  >
+                    Editar
+                  </Link>
 
-                <button
-                  type="submit"
-                  className="font-medium text-red-500 hover:underline"
-                >
-                  Eliminar
-                </button>
-              </form>
+                  <form action={deleteAd}>
+                    <input type="hidden" name="id" value={ad.id} />
+
+                    <button
+                      type="submit"
+                      className="font-medium text-red-500 hover:underline"
+                    >
+                      Eliminar
+                    </button>
+                  </form>
+                </div>
+              )}
             </article>
           ))}
         </section>

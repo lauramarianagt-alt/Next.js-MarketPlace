@@ -44,6 +44,7 @@ export type AdMinAggregateOutputType = {
   description: string | null
   price: number | null
   createdAt: Date | null
+  favorite: boolean | null
   ownerId: number | null
 }
 
@@ -53,6 +54,7 @@ export type AdMaxAggregateOutputType = {
   description: string | null
   price: number | null
   createdAt: Date | null
+  favorite: boolean | null
   ownerId: number | null
 }
 
@@ -62,6 +64,7 @@ export type AdCountAggregateOutputType = {
   description: number
   price: number
   createdAt: number
+  favorite: number
   ownerId: number
   _all: number
 }
@@ -85,6 +88,7 @@ export type AdMinAggregateInputType = {
   description?: true
   price?: true
   createdAt?: true
+  favorite?: true
   ownerId?: true
 }
 
@@ -94,6 +98,7 @@ export type AdMaxAggregateInputType = {
   description?: true
   price?: true
   createdAt?: true
+  favorite?: true
   ownerId?: true
 }
 
@@ -103,6 +108,7 @@ export type AdCountAggregateInputType = {
   description?: true
   price?: true
   createdAt?: true
+  favorite?: true
   ownerId?: true
   _all?: true
 }
@@ -199,6 +205,7 @@ export type AdGroupByOutputType = {
   description: string
   price: number
   createdAt: Date
+  favorite: boolean
   ownerId: number | null
   _count: AdCountAggregateOutputType | null
   _avg: AdAvgAggregateOutputType | null
@@ -231,6 +238,7 @@ export type AdWhereInput = {
   description?: Prisma.StringFilter<"Ad"> | string
   price?: Prisma.FloatFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
+  favorite?: Prisma.BoolFilter<"Ad"> | boolean
   ownerId?: Prisma.IntNullableFilter<"Ad"> | number | null
   owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
@@ -241,6 +249,7 @@ export type AdOrderByWithRelationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  favorite?: Prisma.SortOrder
   ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   owner?: Prisma.UserOrderByWithRelationInput
 }
@@ -254,6 +263,7 @@ export type AdWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringFilter<"Ad"> | string
   price?: Prisma.FloatFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
+  favorite?: Prisma.BoolFilter<"Ad"> | boolean
   ownerId?: Prisma.IntNullableFilter<"Ad"> | number | null
   owner?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id">
@@ -264,6 +274,7 @@ export type AdOrderByWithAggregationInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  favorite?: Prisma.SortOrder
   ownerId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AdCountOrderByAggregateInput
   _avg?: Prisma.AdAvgOrderByAggregateInput
@@ -281,6 +292,7 @@ export type AdScalarWhereWithAggregatesInput = {
   description?: Prisma.StringWithAggregatesFilter<"Ad"> | string
   price?: Prisma.FloatWithAggregatesFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Ad"> | Date | string
+  favorite?: Prisma.BoolWithAggregatesFilter<"Ad"> | boolean
   ownerId?: Prisma.IntNullableWithAggregatesFilter<"Ad"> | number | null
 }
 
@@ -289,6 +301,7 @@ export type AdCreateInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
   owner?: Prisma.UserCreateNestedOneWithoutAdsInput
 }
 
@@ -298,6 +311,7 @@ export type AdUncheckedCreateInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
   ownerId?: number | null
 }
 
@@ -306,6 +320,7 @@ export type AdUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   owner?: Prisma.UserUpdateOneWithoutAdsNestedInput
 }
 
@@ -315,6 +330,7 @@ export type AdUncheckedUpdateInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -324,6 +340,7 @@ export type AdCreateManyInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
   ownerId?: number | null
 }
 
@@ -332,6 +349,7 @@ export type AdUpdateManyMutationInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type AdUncheckedUpdateManyInput = {
@@ -340,6 +358,7 @@ export type AdUncheckedUpdateManyInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
   ownerId?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
 }
 
@@ -359,6 +378,7 @@ export type AdCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  favorite?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
 }
 
@@ -374,6 +394,7 @@ export type AdMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  favorite?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
 }
 
@@ -383,6 +404,7 @@ export type AdMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   price?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
+  favorite?: Prisma.SortOrder
   ownerId?: Prisma.SortOrder
 }
 
@@ -442,6 +464,10 @@ export type FloatFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
+}
+
 export type NullableIntFieldUpdateOperationsInput = {
   set?: number | null
   increment?: number
@@ -455,6 +481,7 @@ export type AdCreateWithoutOwnerInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
 }
 
 export type AdUncheckedCreateWithoutOwnerInput = {
@@ -463,6 +490,7 @@ export type AdUncheckedCreateWithoutOwnerInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
 }
 
 export type AdCreateOrConnectWithoutOwnerInput = {
@@ -500,6 +528,7 @@ export type AdScalarWhereInput = {
   description?: Prisma.StringFilter<"Ad"> | string
   price?: Prisma.FloatFilter<"Ad"> | number
   createdAt?: Prisma.DateTimeFilter<"Ad"> | Date | string
+  favorite?: Prisma.BoolFilter<"Ad"> | boolean
   ownerId?: Prisma.IntNullableFilter<"Ad"> | number | null
 }
 
@@ -509,6 +538,7 @@ export type AdCreateManyOwnerInput = {
   description: string
   price: number
   createdAt?: Date | string
+  favorite?: boolean
 }
 
 export type AdUpdateWithoutOwnerInput = {
@@ -516,6 +546,7 @@ export type AdUpdateWithoutOwnerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type AdUncheckedUpdateWithoutOwnerInput = {
@@ -524,6 +555,7 @@ export type AdUncheckedUpdateWithoutOwnerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type AdUncheckedUpdateManyWithoutOwnerInput = {
@@ -532,6 +564,7 @@ export type AdUncheckedUpdateManyWithoutOwnerInput = {
   description?: Prisma.StringFieldUpdateOperationsInput | string
   price?: Prisma.FloatFieldUpdateOperationsInput | number
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  favorite?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -542,6 +575,7 @@ export type AdSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = run
   description?: boolean
   price?: boolean
   createdAt?: boolean
+  favorite?: boolean
   ownerId?: boolean
   owner?: boolean | Prisma.Ad$ownerArgs<ExtArgs>
 }, ExtArgs["result"]["ad"]>
@@ -552,6 +586,7 @@ export type AdSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   description?: boolean
   price?: boolean
   createdAt?: boolean
+  favorite?: boolean
   ownerId?: boolean
   owner?: boolean | Prisma.Ad$ownerArgs<ExtArgs>
 }, ExtArgs["result"]["ad"]>
@@ -562,6 +597,7 @@ export type AdSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions
   description?: boolean
   price?: boolean
   createdAt?: boolean
+  favorite?: boolean
   ownerId?: boolean
   owner?: boolean | Prisma.Ad$ownerArgs<ExtArgs>
 }, ExtArgs["result"]["ad"]>
@@ -572,10 +608,11 @@ export type AdSelectScalar = {
   description?: boolean
   price?: boolean
   createdAt?: boolean
+  favorite?: boolean
   ownerId?: boolean
 }
 
-export type AdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "createdAt" | "ownerId", ExtArgs["result"]["ad"]>
+export type AdOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "title" | "description" | "price" | "createdAt" | "favorite" | "ownerId", ExtArgs["result"]["ad"]>
 export type AdInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   owner?: boolean | Prisma.Ad$ownerArgs<ExtArgs>
 }
@@ -597,6 +634,7 @@ export type $AdPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
     description: string
     price: number
     createdAt: Date
+    favorite: boolean
     ownerId: number | null
   }, ExtArgs["result"]["ad"]>
   composites: {}
@@ -1027,6 +1065,7 @@ export interface AdFieldRefs {
   readonly description: Prisma.FieldRef<"Ad", 'String'>
   readonly price: Prisma.FieldRef<"Ad", 'Float'>
   readonly createdAt: Prisma.FieldRef<"Ad", 'DateTime'>
+  readonly favorite: Prisma.FieldRef<"Ad", 'Boolean'>
   readonly ownerId: Prisma.FieldRef<"Ad", 'Int'>
 }
     

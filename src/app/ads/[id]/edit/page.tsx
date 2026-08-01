@@ -94,7 +94,7 @@ export default async function EditAdPage({
     revalidatePath("/ads");
     revalidatePath(`/ads/${adId}`);
 
-    redirect(`/ads/${adId}`);
+    redirect("/ads");
   }
 
   return (

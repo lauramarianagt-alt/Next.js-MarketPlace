@@ -1,9 +1,5 @@
-export default function Home() {
-  return (
-    <main>
-      <h2>Encuentra tu próxima oportunidad</h2>
+import { redirect } from "next/navigation";
 
-      <p>Compra y vende artículos de segunda mano.</p>
-    </main>
-  );
+export default async function HomePage() {
+  redirect("/ads");
 }

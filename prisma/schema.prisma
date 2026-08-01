@@ -26,6 +26,7 @@ model Ad {
   description String
   price       Float
   createdAt   DateTime @default(now())
+  favorite    Boolean  @default(false)
 
   ownerId Int?
   owner   User? @relation(fields: [ownerId], references: [id], onDelete: Cascade)

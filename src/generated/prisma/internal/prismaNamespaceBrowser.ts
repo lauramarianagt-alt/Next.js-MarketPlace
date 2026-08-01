@@ -87,6 +87,7 @@ export const AdScalarFieldEnum = {
   description: 'description',
   price: 'price',
   createdAt: 'createdAt',
+  favorite: 'favorite',
   ownerId: 'ownerId'
 } as const
 
