@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: Promise<{
@@ -7,48 +7,28 @@ type Props = {
   }>;
 };
 
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
-  const { id } = await params;
-
-  const ad = await prisma.ad.findUnique({
-    where: {
-      id: Number(id),
-    },
-  });
-
-  if (!ad) {
-    return {
-      title: "Anuncio no encontrado",
-    };
-  }
-
-  return {
-    title: `${ad.title} - ${ad.price.toFixed(2)} €`,
-    description: ad.description,
-  };
-}
-
 export default async function AdDetailPage({ params }: Props) {
   const { id } = await params;
+  const adId = Number(id);
+
+  if (!Number.isSafeInteger(adId) || adId <= 0) {
+    notFound();
+  }
 
   const ad = await prisma.ad.findUnique({
     where: {
-      id: Number(id),
+      id: adId,
     },
   });
 
   if (!ad) {
-    return <h1>Anuncio no encontrado</h1>;
+    notFound();
   }
 
   return (
     <main className="mx-auto max-w-4xl p-6">
       <h1 className="mb-4 text-3xl font-bold">{ad.title}</h1>
-
       <p className="mb-4">{ad.description}</p>
-
       <p className="text-xl font-semibold">{ad.price.toFixed(2)} €</p>
     </main>
   );

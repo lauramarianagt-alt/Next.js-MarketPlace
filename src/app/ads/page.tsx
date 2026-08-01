@@ -1,6 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { getSession } from "@/lib/auth";
+import { revalidatePath } from "next/cache";
 
 type Props = {
   searchParams: Promise<{
@@ -29,18 +31,32 @@ export default async function AdsPage({ searchParams }: Props) {
   async function deleteAd(formData: FormData) {
     "use server";
 
+    const session = await getSession();
+
+    if (!session) {
+      redirect("/login");
+    }
+
     const id = Number(formData.get("id"));
 
-    if (!Number.isInteger(id)) {
+    if (!Number.isSafeInteger(id) || id <= 0) {
       throw new Error("El identificador del anuncio no es válido");
     }
 
-    await prisma.ad.delete({
+    const result = await prisma.ad.deleteMany({
       where: {
         id,
+        ownerId: session.userId,
       },
     });
 
+    if (result.count === 0) {
+      throw new Error(
+        "No puedes eliminar este anuncio porque no eres su propietario",
+      );
+    }
+
+    revalidatePath("/ads");
     redirect("/ads");
   }
 

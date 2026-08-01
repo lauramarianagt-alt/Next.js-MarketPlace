@@ -1,8 +1,10 @@
 import Button from "@/components/Button";
 import FormField from "@/components/FormField";
+import { getSession } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
-import { notFound, redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 import Link from "next/link";
+import { notFound, redirect } from "next/navigation";
 
 type EditAdPageProps = {
   params: Promise<{
@@ -10,11 +12,19 @@ type EditAdPageProps = {
   }>;
 };
 
-export default async function EditAdPage({ params }: EditAdPageProps) {
+export default async function EditAdPage({
+  params,
+}: EditAdPageProps) {
+  const session = await getSession();
+
+  if (!session) {
+    redirect("/login");
+  }
+
   const { id } = await params;
   const adId = Number(id);
 
-  if (!Number.isInteger(adId)) {
+  if (!Number.isSafeInteger(adId) || adId <= 0) {
     notFound();
   }
 
@@ -24,12 +34,19 @@ export default async function EditAdPage({ params }: EditAdPageProps) {
     },
   });
 
-  if (!ad) {
+  if (!ad || ad.ownerId !== session.userId) {
     notFound();
   }
 
   async function updateAd(formData: FormData) {
     "use server";
+
+    // La autorización debe repetirse dentro de la mutación.
+    const actionSession = await getSession();
+
+    if (!actionSession) {
+      redirect("/login");
+    }
 
     const title = formData.get("title");
     const description = formData.get("description");
@@ -43,45 +60,91 @@ export default async function EditAdPage({ params }: EditAdPageProps) {
       throw new Error("Los datos del formulario no son válidos");
     }
 
+    const normalizedTitle = title.trim();
+    const normalizedDescription = description.trim();
     const numericPrice = Number(price);
 
     if (
-      title.trim().length < 3 ||
-      description.trim().length < 5 ||
+      normalizedTitle.length < 3 ||
+      normalizedDescription.length < 5 ||
       !Number.isFinite(numericPrice) ||
       numericPrice <= 0
     ) {
       throw new Error("Revisa los datos del anuncio");
     }
 
-    await prisma.ad.update({
+    const result = await prisma.ad.updateMany({
       where: {
         id: adId,
+        ownerId: actionSession.userId,
       },
       data: {
-        title: title.trim(),
-        description: description.trim(),
+        title: normalizedTitle,
+        description: normalizedDescription,
         price: numericPrice,
       },
     });
 
-    redirect("/ads");
+    if (result.count === 0) {
+      throw new Error(
+        "No puedes editar este anuncio porque no eres su propietario",
+      );
+    }
+
+    revalidatePath("/ads");
+    revalidatePath(`/ads/${adId}`);
+
+    redirect(`/ads/${adId}`);
   }
 
   return (
-    <article key={ad.id} className="rounded-lg border p-4 shadow-sm">
-      <h2 className="text-xl font-semibold">{ad.title}</h2>
+    <main className="mx-auto max-w-xl p-6">
+      <h1 className="mb-6 text-3xl font-bold">
+        Editar anuncio
+      </h1>
 
-      <p className="mt-2 text-gray-600">{ad.description}</p>
+      <form
+        action={updateAd}
+        className="flex flex-col gap-4"
+      >
+        <FormField
+          label="Título"
+          type="text"
+          name="title"
+          id="title"
+          placeholder="Título del anuncio"
+          defaultValue={ad.title}
+        />
 
-      <p className="mt-4 text-lg font-bold">{ad.price.toFixed(2)} €</p>
+        <FormField
+          label="Descripción"
+          type="text"
+          name="description"
+          id="description"
+          placeholder="Descripción del anuncio"
+          defaultValue={ad.description}
+        />
+
+        <FormField
+          label="Precio"
+          type="number"
+          name="price"
+          id="price"
+          placeholder="Precio"
+          defaultValue={ad.price}
+        />
+
+        <Button className="w-full">
+          Guardar cambios
+        </Button>
+      </form>
 
       <Link
-        href={`/ads/${ad.id}/edit`}
+        href={`/ads/${ad.id}`}
         className="mt-4 inline-block font-medium underline"
       >
-        Editar
+        Cancelar
       </Link>
-    </article>
+    </main>
   );
 }
